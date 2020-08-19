@@ -14,13 +14,7 @@ void ATankPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	auto ControlledTank = GetControlledTank();
-	if (!ControlledTank) {
-		UE_LOG(LogTemp, Warning, TEXT("PLayerController not Possessing"))
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("PLayerController Possessing"))
-	}
-	UE_LOG(LogTemp, Warning, TEXT("PLayerController Working"))
+
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
