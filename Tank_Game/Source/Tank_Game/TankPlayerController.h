@@ -9,7 +9,8 @@
 /**
  * 
  */
-class ATank;
+class UTankAimingComponent;
+
 UCLASS()
 class TANK_GAME_API ATankPlayerController : public APlayerController
 {
@@ -18,8 +19,11 @@ public:
 	void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void FoundAimComponent(UTankAimingComponent* AimCompRef);
+
 private:
-	ATank* GetControlledTank() const;
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
 	bool GetLookDirection(FVector2D, FVector&)const;

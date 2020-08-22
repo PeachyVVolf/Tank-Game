@@ -6,7 +6,16 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+UENUM()
+enum class EFiringState : uint8 
+{
+	Reloading,
+	Aiming,
+	ReadyToFire
+};
+
 //Forward Decleration
+class AProjectile;
 class UTankBarrel; 
 class UTankTurret;
 
@@ -16,27 +25,41 @@ class TANK_GAME_API UTankAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
-	// Sets default values for this component's properties
-	UTankAimingComponent();
-
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-	void SetTurretReference(UTankTurret* TurretToSet);
-
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringState FiringState = EFiringState::Aiming;
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void AimAt(FVector HitLocation, float);
+	void AimAt(FVector HitLocation);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Firing)
+	void FireAmmo();
 
 private:
-	UTankBarrel* Barrel = nullptr;
+	// Sets default values for this component's properties
+	UTankAimingComponent();
 	void MoveBarrelTowards(FVector);
 
+	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 	//void MoveTurretTowards(FVector);
-		
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 5000; 
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTimeInSeconds = 3;
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	double LastFireTime = 0;
 };
