@@ -13,10 +13,13 @@ UCLASS()
 class TANK_GAME_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
-public:
+private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+
 	//How close can AI tank get to player before not getting any close
+	UPROPERTY(EditDefaultsOnly)
 	float AcceptanceRadius = 7000;
 };

@@ -11,7 +11,8 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
-	ReadyToFire
+	ReadyToFire,
+	OutOfAmmo
 };
 
 //Forward Decleration
@@ -40,6 +41,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Firing)
 	void FireAmmo();
 
+	EFiringState GetFiringState() const;
+
+	UFUNCTION(BlueprintCallable, Category = Firing)
+	int GetRoundsLeft();
+
 private:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
@@ -63,4 +69,6 @@ private:
 	double LastFireTime = 0;
 
 	FVector AimDirection;
+
+	int RoundsOfAmmo = 10;
 };
